@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SOTM</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.1/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.0.0-rc.1/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.js"></script>
+  <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
+  <script src="./mms_api.js"></script>
+
+  <script src="L.Polyline.SnakeAnim.js"></script>
+  <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link href="layout.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pelias-leaflet-geocoder.css">
+
+
+</head>
+<body>
+  <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
+  <nav id="sidebar-wrapper">
+      <ul class="sidebar-nav">
+          <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+          <li class="sidebar-brand">
+              <a href="#top"  onclick = $("#menu-close").click(); >Map My Story</a>
+          </li>
+          <li>
+              <a href="#map" onclick = $("#menu-close").click(); >Explore the Map</a>
+          </li>
+          <li>
+              <a href="#instructions" onclick = $("#menu-close").click(); >How does this work?</a>
+          </li>
+          <li>
+              <a href="#about" onclick = $("#menu-close").click(); >About</a>
+          </li>
+          <li class = "hidden">
+              <a href="#contact" onclick = $("#menu-close").click(); >Contact</a>
+          </li>
+      </ul>
+  </nav>
+      <script>
+      var title = "Where do you live?";
+      document.getElementsByClassName("modal-title").innerHTML = "Where do you live?";
+
+      </script>
+      <script> -->
+      api = new API("easherma", "SOTM_test")
+        //var geoj = {{carto_geoj|tojson}};
+        //var geoj = []
+
+
+      </script>
+      <script>
+        //var geoplaces = {{ carto_places|tojson }};
+        var geoplaces = [];
+      </script>
+      <script>
+        //var prevRowId = {{ last_row_id }};
+        var prevRowId = []
+      </script>
+      <script src="notes.js"></script>
+
+  <!-- Header -->
+  <header id="top" class="header">
+  <div class="row">
+      <div class="text-vertical-center col-md-3"><h1>Map My Story <!--    <span class="h3">  Map and share your migration story--></h1> </div>
+      <div class="text-vertical-center col-md-3"><h2> SOTM Edition</h2></div>
+      <div id="buttons" class="text-vertical-center col-md-6">
+      <button onclick='all_layer_group.snakeIn()' class="btn btn-dark btn-lg"   >Re-draw this Story</button>
+      <a href ="#map"> <button onclick='geocoder.expand();  ' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a> <!--/took out map.removeLayer(all_layer_group)-->
+      <button onclick='postUserCoords("90", "dumb web dev", "testing, hardcoded");update_map();' class="btn btn-dark btn-lg">Post Your Route</button>
+      <a href="/{{id}}" target="_blank" class="btn btn-dark btn-lg" >Share this Story</a>
+      </div>
+    </div>
+  </header>
+  <div id='map' class='dark'></div>
+  <script src="geopaths.js"></script>
+  <!-- <div id="map"> -->
+  <script>
+  function plotUser() {
+
+    function plotMarkers ( latlng ) {
+      L.marker( latlng ).addTo(map);
+    };
+    var markers = userCoords.forEach(plotMarkers);
+    return markers;
+  }
+
+  var api = new API("easherma", "SOTM_test");
+    /* var map = L.map('map').setView([37.804146, -122.275045], 16);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    }).addTo(map); */
+    var markers = [];
+    var userCoords = [];
+
+    //var userLabels = [];
+    //var userStories = [];
+  var allGeo= {
+"type": "FeatureCollection",
+"features": []
+};
+    sessionStorage.setItem("stories", "");
+    if (sessionStorage > 1)
+    {var allGeo2 = JSON.parse(sessionStorage.stories)}
+    var features = [];
+    L.geoJson(features).addTo(map); //storypoints
+    //var polyline = L.polyline(
+
+    userLayer = L.featureGroup();
+    allLayer =  L.featureGroup([allStories]).addTo(map);
+    var allStories = []
+//listening to event geocoder
+geocoder.on('select', function (e) {
+  //get the selected feature, push it to a features array
+  features.push(e.feature);
+  console.log(e.feature);
+//coords  for polylines, pushes polylines to features
+  userCoords.push(e.latlng);
+  console.log(e.latlng)
+  if (userCoords.length > 1)
+{
+  var polyline = L.polyline(userCoords)
+  features.push(polyline.toGeoJSON())
+}
+
+
+
+
+//return polyline;
+//  userLayer.bindPopup("TESTING" + userLabels[0] + " to: " + userLabels[1]);
+//  userLayer.addTo(map);
+
+});
+
+
+
+/* not used atm, I think I was trying to sketch out how to handle backend to/froms
+function submitStory() {
+  allStories.push([userStories]);
+  userStories = []
+  //selection = []
+}
+*/
+function submitGeoj() {
+
+  features.forEach(function(i) {allGeo.features.push(i)});
+  userCoords = [];
+  console.log(JSON.stringify(allGeo));
+  sessionStorage.setItem("stories", JSON.stringify(allGeo));
+  features = [];
+
+}
+
+//allGeo.features[0]['geometry']['type']
+
+
+
+  </script>
+  </div>
+  <!-- Custom Theme JavaScript -->
+  <script>
+  // Closes the sidebar menu
+  $("#menu-close").click(function(e) {
+      e.preventDefault();
+      $("#sidebar-wrapper").toggleClass("active");
+  });
+
+  // Opens the sidebar menu
+  $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#sidebar-wrapper").toggleClass("active");
+  });
+
+  // Scrolls to the selected menu item on the page
+  /*$(function() {
+      $('a[href*=#]:not([href=#])').click(function() {
+          if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+
+              var target = $(this.hash);
+              target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+              if (target.length) {
+                  $('html,body').animate({
+                      scrollTop: target.offset().top
+                  }, 1000);
+                  return false;
+              }
+          }
+      });
+  });*/
+  </script>
+  <section id="instructions" class="instructions bg-primary">
+
+          <div class="row text-left">
+              <div class="col-lg-10 col-lg-offset-1">
+        <span class="lead">
+          {{instructions}}
+<!--
+<ol><li>Submit up to five locations that describe several generations of your family, beginning with you and where you currently live.</li>
+<li>You'll need to submit at least two points.</li>
+<li>Each location should be significant to that generation: a birthplace, where they lived for a long time, or identify strongly with that place for any reason.</li>
+<li>Add an optional note about you or your trace, for others to see.</li>
+</ol>
+<p>Once you submit your locations, we'll trace them on the map, where you can also see other people's family histories.</p></span> -->
+                  <!-- /.row (nested) -->
+              </div>
+              <!-- /.col-lg-10 -->
+          </div>
+          <!-- /.row -->
+      </div>
+      <!-- /.container -->
+  </section>
+  <!-- Call to Action -->
+  <aside class="call-to-action bg-primary">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 text-center">
+                  <a href="#map" class="btn btn-lg btn-light">Add Your Story!</a>
+                  <a href="#signup" class="btn btn-lg btn-dark">Stay In Touch!</a>
+              </div>
+          </div>
+      </div>
+  </aside>
+
+
+  <!-- About -->
+  <section id="about" class="about">
+      <div class="container">
+          <div class="row text center">
+              <div class="col-lg-5 col-lg-offset-1 text-center">
+        <h2>About:</h2>
+        <hr class="small">
+                  <p class = "lead">{{about}} </p>
+
+              </div>
+              <div class="col-lg-5 col-lg-offset-1 text-center">
+                          <!--<iframe id='signup' src="https://docs.google.com/forms/d/1JYwnBkVeSqjPiL-HYAwGIjs1RL285Aiy5mJVAoQbllM/viewform?embedded=true" width="100%" height="465" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">Loading...</iframe> -->
+              </div>
+          </div>
+          <!-- /.row -->
+      </div>
+      <!-- /.container -->
+  </section>
+
+
+  <!-- Footer -->
+  <footer>
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-10 col-lg-offset-1 text-center">
+                  </h4>
+                  <ul class="list-unstyled">
+                      <li><i class="fa fa-github fa-fw"></i> <a href="https://github.com/easherma/geotracer">https://github.com/easherma/geotracer</a></li>
+                      <li><i class="fa fa-envelope-o fa-fw"></i>  <a href="geospecialtrails@gmail.com">geospecialtrails@gmail.com</a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </footer>
+</body>
+</html>
