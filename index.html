@@ -3,8 +3,9 @@
 <head>
   <title>SOTM</title>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.1/dist/leaflet.css">
-  <script src="https://unpkg.com/leaflet@1.0.0-rc.1/dist/leaflet.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.1/dist/leaflet.css">
+  <script src="https://npmcdn.com/leaflet@1.0.0-rc.1/dist/leaflet.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.js"></script>
   <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
@@ -42,11 +43,7 @@
           </li>
       </ul>
   </nav>
-      <script>
-      var title = "Where do you live?";
-      document.getElementsByClassName("modal-title").innerHTML = "Where do you live?";
 
-      </script>
       <script> -->
       api = new API("easherma", "SOTM_test")
         //var geoj = {{carto_geoj|tojson}};
@@ -63,24 +60,58 @@
         var prevRowId = []
       </script>
       <script src="notes.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-81210576-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 
   <!-- Header -->
   <header id="top" class="header">
   <div class="row">
-      <div class="text-vertical-center col-md-3"><h1>Map My Story <!--    <span class="h3">  Map and share your migration story--></h1> </div>
-      <div class="text-vertical-center col-md-3"><h2> SOTM Edition</h2></div>
-      <div id="buttons" class="text-vertical-center col-md-6">
-      <button onclick='all_layer_group.snakeIn()' class="btn btn-dark btn-lg"   >Re-draw this Story</button>
-      <a href ="#map"> <button onclick='geocoder.expand();  ' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a> <!--/took out map.removeLayer(all_layer_group)-->
-      <button onclick='postUserCoords("90", "dumb web dev", "testing, hardcoded");update_map();' class="btn btn-dark btn-lg">Post Your Route</button>
-      <a href="/{{id}}" target="_blank" class="btn btn-dark btn-lg" >Share this Story</a>
-      </div>
+      <div class="text-vertical-center col-md-5"><h1>Map My Story <!--    <span class="h3">  Map and share your migration story--></h1> </div>
+      <div class="text-vertical-center col-md-4"><h2> For State Of The Map 2016</h2></div>
+
     </div>
   </header>
+  <section id="instructions" class="instructions bg-primary">
+
+          <div class="row text-left">
+              <div class="col-lg-10 col-lg-offset-1">
+        <span class="lead">
+<p>We all know where we are right now (more or less). Tell us how you got here. Be as detailed or as general as you'd like!</p>
+
+<p>Once you submit your locations, we'll trace it on the map, where you can also see it along with the other submissions! </p></span>
+
+                  <!-- /.row (nested) -->
+              </div>
+              <div id="getstarted" class="text-vertical-right pull-right col-md-4">
+              <p> Click 'Submit Your Story' to get started.</p>
+          </div>
+          <!-- /.row -->
+      </div>
+      <!-- /.container -->
+  </section>
+  <div id="buttons" class="text-vertical-right pull-right col-md-4">
+
+    <button onclick='update_map()' class="btn btn-dark btn-lg"   >Re-draw this Story</button>
+    <a href ="#map"> <button onclick='geocoder.expand();' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a> <!--/took out map.removeLayer(all_layer_group)-->
+  </div>
+  <!-- <button onclick='postUserFeatures(initialTimestamp + Math.random(), "dumb web dev", "testing, hardcoded");' class="btn btn-dark btn-lg">Post Your Route</button> -->
+  <!-- <a href="/{{id}}" target="_blank" class="btn btn-dark btn-lg" >Share this Story</a> -->
+  </div>
+
   <div id='map' class='dark'></div>
   <script src="geopaths.js"></script>
   <!-- <div id="map"> -->
+
   <script>
+
   function plotUser() {
 
     function plotMarkers ( latlng ) {
@@ -98,12 +129,10 @@
     var markers = [];
     var userCoords = [];
 
+
     //var userLabels = [];
     //var userStories = [];
-  var allGeo= {
-"type": "FeatureCollection",
-"features": []
-};
+
     sessionStorage.setItem("stories", "");
     if (sessionStorage > 1)
     {var allGeo2 = JSON.parse(sessionStorage.stories)}
@@ -112,25 +141,27 @@
     //var polyline = L.polyline(
 
     userLayer = L.featureGroup();
-    allLayer =  L.featureGroup([allStories]).addTo(map);
-    var allStories = []
+    var allStories = [];
+    var  timestamps = [];
 //listening to event geocoder
 geocoder.on('select', function (e) {
   //get the selected feature, push it to a features array
-  features.push(e.feature);
-  console.log(e.feature);
+
+  feature = e.feature;
+
+
+  timestamps.push(e.originalEvent['timeStamp']);
+  initialTimestamp = timestamps[0];
+  console.log(feature);
 //coords  for polylines, pushes polylines to features
-  userCoords.push(e.latlng);
+  geocoderCoords = e.latlng;
+  var popup = L.popup()
+    .setLatLng(geocoder.marker._latlng)
+    //.setContent("<button>First name:<br><input type='text' name='firstname' value='Your first name' ><br>Last name:<br><input type='text' name='RaisonSociale' value='Your last name'><input class='click' type='submit' name='submit' value='Sent'></button>")
+    .setContent(e.feature.properties.name + ' <button onclick= "confirm(resetCloseInput());" type="submit" class="btn btn-md btn-dark" style="background-color:#337AB7">Confirm</button> <button onclick= "userCoords = [];features = [];geocoder.resetInput();map.closePopup();" type="reset" class="btn btn-md btn-dark">Clear</button>')
+    .openOn(map);
   console.log(e.latlng)
-  if (userCoords.length > 1)
-{
-  var polyline = L.polyline(userCoords)
-  features.push(polyline.toGeoJSON())
-}
-
-
-
-
+//  if (userCoords.length > 1)
 //return polyline;
 //  userLayer.bindPopup("TESTING" + userLabels[0] + " to: " + userLabels[1]);
 //  userLayer.addTo(map);
@@ -193,34 +224,15 @@ function submitGeoj() {
       });
   });*/
   </script>
-  <section id="instructions" class="instructions bg-primary">
 
-          <div class="row text-left">
-              <div class="col-lg-10 col-lg-offset-1">
-        <span class="lead">
-          {{instructions}}
-<!--
-<ol><li>Submit up to five locations that describe several generations of your family, beginning with you and where you currently live.</li>
-<li>You'll need to submit at least two points.</li>
-<li>Each location should be significant to that generation: a birthplace, where they lived for a long time, or identify strongly with that place for any reason.</li>
-<li>Add an optional note about you or your trace, for others to see.</li>
-</ol>
-<p>Once you submit your locations, we'll trace them on the map, where you can also see other people's family histories.</p></span> -->
-                  <!-- /.row (nested) -->
-              </div>
-              <!-- /.col-lg-10 -->
-          </div>
-          <!-- /.row -->
-      </div>
-      <!-- /.container -->
-  </section>
   <!-- Call to Action -->
   <aside class="call-to-action bg-primary">
       <div class="container">
           <div class="row">
               <div class="col-lg-12 text-center">
-                  <a href="#map" class="btn btn-lg btn-light">Add Your Story!</a>
-                  <a href="#signup" class="btn btn-lg btn-dark">Stay In Touch!</a>
+                  <!--<a href="#map" class="btn btn-lg btn-light">Add Your Story!</a>
+                  <a href="#signup" class="btn btn-lg btn-dark">Stay In Touch!</a>-->
+                  <p> Wasn't that fun!?</p>
               </div>
           </div>
       </div>
@@ -230,14 +242,16 @@ function submitGeoj() {
   <!-- About -->
   <section id="about" class="about">
       <div class="container">
-          <div class="row text center">
-              <div class="col-lg-5 col-lg-offset-1 text-center">
+          <div class="row text left">
+              <div class="col-lg-9 col-lg-offset-1 text-left">
         <h2>About:</h2>
         <hr class="small">
-                  <p class = "lead">{{about}} </p>
+                  <p class = "lead">Follow on twitter @OSGISOMG or email me at ericandrewsherman@gmail.com</p>
+                  <p><a href="/OSGIS"> Check out the OSGIS Guide!</a>
+                    <p><a href="https://soundcloud.com/user-987474427/1-pissed-off-optimists "> Check out my podcast!</a>
 
               </div>
-              <div class="col-lg-5 col-lg-offset-1 text-center">
+              <div class="col-lg-5 col-lg-offset-1 text-left">
                           <!--<iframe id='signup' src="https://docs.google.com/forms/d/1JYwnBkVeSqjPiL-HYAwGIjs1RL285Aiy5mJVAoQbllM/viewform?embedded=true" width="100%" height="465" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">Loading...</iframe> -->
               </div>
           </div>
@@ -254,8 +268,8 @@ function submitGeoj() {
               <div class="col-lg-10 col-lg-offset-1 text-center">
                   </h4>
                   <ul class="list-unstyled">
-                      <li><i class="fa fa-github fa-fw"></i> <a href="https://github.com/easherma/geotracer">https://github.com/easherma/geotracer</a></li>
-                      <li><i class="fa fa-envelope-o fa-fw"></i>  <a href="geospecialtrails@gmail.com">geospecialtrails@gmail.com</a>
+                      <li><i class="fa fa-github fa-fw"></i> <a href="https://github.com/easherma/mapmystory">https://github.com/easherma/mapmystory</a></li>
+                      <li><i class="fa fa-envelope-o fa-fw"></i>  <a href="ericandrewsherman@gmail.com">ericandrewsherman@gmail.com</a>
                       </li>
                   </ul>
               </div>

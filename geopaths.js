@@ -24,7 +24,7 @@ var all_layer_group = L.featureGroup();
 
 // Show the whole world in this first view.
 var map = L.map('map', {
-  bounceAtZoomLimits: true,
+  bounceAtZoomLimits: false,
   maxBounds: [[-85.0, -180.0],[85.0, 180.0]],
   inertia: false,
   minZoom: 2,
@@ -60,6 +60,39 @@ var overlayControl = L.control.layers(baseMaps,overlayMaps);
 overlayControl.options.position = 'bottomright';
 overlayControl.addTo(map);
 
+var postControl = L.Control.extend({
+
+  options: {
+    position: 'topright'
+    //control position - allowed: 'topleft', 'topright', 'bottomleft', 'bottomright'
+  },
+
+  onAdd: function (map) {
+      var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+      container.innerHTML =
+      "<button id ='submitBtn' class='btn btn-dark btn-md' onclick='postUserFeatures(initialTimestamp + Math.random(), 'testing', 'nocustomform');' > I'm done, post my route!</button>"
+      //console.log(container)
+      container.onclick = function(){
+        submitBtn.onclick(postUserFeatures(initialTimestamp + Math.random(), "testing", "nocustomform"))
+
+      }
+      return container;
+    }
+
+});
+
+function addSubmitBtn(confirmed_mark){
+  var submitBtn = document.createElement('a');
+  submitBtn.className = "btn btn-dark btn-sm";
+  submitBtn.innerHTML = "Submit My Story";
+  submitBtn.addEventListener('click',function(){
+    //Prevent doubletap
+    map.closePopup();
+    showReadyToSubmit(confirmed_mark);
+  });
+  confirmed_mark.getPopup().getContent().appendChild(submitBtn);
+}
+
 //Gets new rows from the server and plots them.
 //update_map executes periodically and indefinitely until server returns error
 // It is also asynchronous, so control moves past this line
@@ -77,47 +110,88 @@ $(function() {
 */
 
 /* ************ FUNCTIONS *********** */
+function confirm() {
+  userCoords.push(geocoderCoords);
+
+
+  features.push(feature);
+  if (userCoords.length >= 2) {
+    if (typeof submitBtn == "undefined") {
+    map.addControl(new postControl());
+  }
+  }
+
+}
+
+function submitListen() {
+  L.map.container.submitBtn.once('click',function(){
+
+    postUserFeatures(initialTimestamp + Math.random(), "testing", "nocustomform")
+
+  });
+}
+
+
+
+function resetCloseInput() {
+
+      geocoder.resetInput();
+      map.closePopup();
+
+}
 
 function submitGeoj() {
 
   features.forEach(function(i) {allGeo.features.push(i)});
   userCoords = [];
-  console.log(JSON.stringify(allGeo));
+  //console.log(JSON.stringify(allGeo));
   sessionStorage.setItem("stories", JSON.stringify(allGeo));
   features = [];
 
 }
 
-function postUserCoords(user_id, name, description ) {
-  for (var i = 0; i < userCoords.length; i++) {
+function postUserFeatures(user_id, name, description) {
+  for (var i = 0; i < features.length; i++) {
     api.post_data(user_id, {lat:userCoords[i]['lat'], lng:userCoords[i]['lng']}, Number(i+1),
-  {name: name,
-  description: description ,
-  pelias_properties: features[i]['properties']});
+  {"name": name,
+  "description": description,
+  "pelias_properties": features[i]['properties']
+});
   }
+
 }
 
 
-function polylineAnim(coords) {
+function polylineAnim(coords, label) {
   //var line = L.polyline(coords, {snakingSpeed: 200});
   //line.addTo(all_layer_group).snakeIn();
   for (var j = 1; j < coords.length; j ++){
     color = getRandomColor()
-    var line = L.polyline(coords, {snakingSpeed: 200, color:color, opacity: j * .2 , weight: j * .5 });
+    var line = L.polyline(coords, {snakingSpeed: 450, color:color, opacity: .05 , weight: 2});
       (line);
+      ////console.log("coords lenght: " , coords)
+      for (var i = 0; i < coords.length; i++) {
+        var point = L.circleMarker(coords[i], {radius: 2.5,color:color,opacity: .05, stroke: true, weight: .5, fill:true});
+        point.addTo(map);
+        point.bindPopup(label);
+      }
+    //var point = L.circleMarker(coords);
+    //point.addTo(map);
     line.addTo(all_layer_group).snakeIn();
+    line.bindPopup(label);
+    //line.setPopupContent(label);
   }
 }
 
 function geoj_to_features() {
   for (var i = 0; i < geoj.length; i++) {
-    console.log(geoj[i]['features'][i]['geometry']['coordinates'])
+    //console.log(geoj[i]['features'][i]['geometry']['coordinates'])
   }
 }
 
 function logArrayElements(element, index, array) {
+  ////console.log('a[' + index + '] = ' + JSON.stringify(element));
   //console.log('a[' + index + '] = ' + JSON.stringify(element));
-  console.log('a[' + index + '] = ' + JSON.stringify(element));
   //geoj[0]['features'][0]['geometry']['coordinates']
 }
 
@@ -157,7 +231,7 @@ function update_map() {
       setTimeout(update_map,UPDATE_INTERVAL);
     },
     error : function(error) {
-      console.log("error: " + error);
+      //console.log("error: " + error);
     }
   });
   */
@@ -242,11 +316,11 @@ function drawMultipoints(multipoints,places,layer,bring_to_back){
 
   multipoints.forEach(function(mp,i){
     // Transform coordinate pairs from Lng,Lat to Lat,Lng
-    var coords = coords;
+  var coords = mp.geometry.coordinates;
 	color = getRandomColor()
     // Reverse coordinates and places so animation happens in chronological order
-    coords.reverse();
-    places[i].reverse();
+  //  coords.reverse();
+  //  places[i].reverse();
 
     // Transform multipoint to featuregroup of alternating points and line segments.
     var firstMarker = L.circleMarker(coords[0],{radius:2,color:color, opacity: 0});
@@ -318,7 +392,7 @@ function confirmCoord(coordPair,place) {
     color : 'yellow',
     note : noteForm({isPopup:true})
   };
-  var confirmed_mark = L.circleMarker(coordPair,markerOptions).bindPopup(confirmation_msg);
+  var confirmed_mark = L.circleMarker(userCoords,markerOptions).bindPopup(confirmation_msg);
   confirmed_pts.addLayer(confirmed_mark);
 
   addNext(confirmed_mark);
@@ -532,10 +606,10 @@ function post() {
     data: JSON.stringify(geoJ),
     contentType: 'application/json',
     success: function(result) {
-      console.log("success");
+      //console.log("success");
     },
     error: function (error) {
-      console.log("error: " + eval(error));
+      //console.log("error: " + eval(error));
     }
   });
 };

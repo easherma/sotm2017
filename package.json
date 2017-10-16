@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/easherma/mapmystory#readme",
   "dependencies": {
-    "cartodb": "^0.5.1"
+    "cartodb": "^0.5.1",
+    "underscore": "^1.8.3"
   }
 }
