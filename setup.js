@@ -9,11 +9,14 @@ var schema = {
     user_id  : 'TEXT',
     the_geom    : 'GEOMETRY',
     path_order    : 'NUMERIC',
-    other_data : 'JSON'
+    other_data : 'JSON',
+    user_name : 'TEXT',
+    user_email : 'TEXT',
+    user_org : 'TEXT'
 };
 
 var construct_schema = function(schema,with_cartodb_id){
-    var pairs = Object.keys(schema).map(function(key){ return [key,schema[key]].join(' ') }); 
+    var pairs = Object.keys(schema).map(function(key){ return [key,schema[key]].join(' ') });
     return pairs.join(", ");
 };
 
@@ -39,10 +42,10 @@ var create_update_function = function(db_name,schema){
     var schema_string  = construct_schema(schema);
     var function_def = "UPDATE_"+db_name+"( "+schema_string +" )";
     var query = "CREATE OR REPLACE FUNCTION "+function_def+ " RETURNS VOID AS $$ "+
-    "INSERT INTO " + db_name + " ( "+ Object.keys(schema).join(", ") + ")  VALUES ( "+Object.keys(schema).join(", ") +") \n" + 
+    "INSERT INTO " + db_name + " ( "+ Object.keys(schema).join(", ") + ")  VALUES ( "+Object.keys(schema).join(", ") +") \n" +
     "$$ LANGUAGE SQL \n"+
     "SECURITY DEFINER \n"+
-    "RETURNS NULL ON NULL INPUT;\n" + 
+    "RETURNS NULL ON NULL INPUT;\n" +
     "GRANT EXECUTE ON FUNCTION "+function_def+" TO  publicuser;";
     console.log('running create function query');
     console.log(query);

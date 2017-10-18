@@ -10,6 +10,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.js"></script>
   <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
   <script src="./mms_api.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
   <script src="L.Polyline.SnakeAnim.js"></script>
   <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
@@ -18,10 +19,136 @@
   <link href="layout.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="pelias-leaflet-geocoder.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+  label, input { display:block; }
+  input.text { margin-bottom:12px; width:95%; padding: .4em; }
+  fieldset { padding:0; border:0; margin-top:25px; }
+  h1 { font-size: 1.2em; margin: .6em 0; }
+  div#users-contain { width: 350px; margin: 20px 0; }
+  div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+  div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+  .ui-dialog .ui-state-error { padding: .3em; }
+  .validateTips { border: 1px solid transparent; padding: 0.3em; }
+</style>
+    <script>
+      $( function() {
+        var dialog, form,
+
+          // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
+          emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+          name = $( "#name" ),
+          email = $( "#email" ),
+          org = $( "#org" ),
+          allFields = $( [] ).add( name ).add( email ).add( org ),
+          tips = $( ".validateTips" );
+
+        function updateTips( t ) {
+          tips
+            .text( t )
+            .addClass( "ui-state-highlight" );
+          setTimeout(function() {
+            tips.removeClass( "ui-state-highlight", 1500 );
+          }, 500 );
+        }
+
+        function checkLength( o, n, min, max ) {
+          if ( o.val().length > max || o.val().length < min ) {
+            o.addClass( "ui-state-error" );
+            updateTips( "Length of " + n + " must be between " +
+              min + " and " + max + "." );
+            return false;
+          } else {
+            return true;
+          }
+        }
+
+        function checkRegexp( o, regexp, n ) {
+          if ( !( regexp.test( o.val() ) ) ) {
+            o.addClass( "ui-state-error" );
+            updateTips( n );
+            return false;
+          } else {
+            return true;
+          }
+        }
+
+        function addUser() {
+          var valid = true;
+          allFields.removeClass( "ui-state-error" );
+
+          valid = valid && checkLength( name, "username", 3, 80 );
+          valid = valid && checkLength( email, "email", 0, 80 );
+          valid = valid && checkLength( org, "org", 0, 80 );
+          valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
+          valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
+
+          if ( valid ) {
+            // $( "#users tbody" ).append( "<tr>" +
+            //   "<td>" + name.val() + "</td>" +
+            //   "<td>" + email.val() + "</td>" +
+            //   "<td>" + org.val() + "</td>" +
+            // "</tr>" );
+            userName = name.val();
+            userEmail = email.val();
+            userOrg = org.val();
+            dialog.dialog( "close" );
+          }
+          return valid;
+
+        }
+
+        dialog = $( "#dialog-form" ).dialog({
+          autoOpen: false,
+          height: 400,
+          width: 350,
+          modal: true,
+          buttons: {
+            "Let's Get Mapping!": addUser,
+            Cancel: function() {
+              dialog.dialog( "close" );
+            }
+          },
+          close: function() {
+            form[ 0 ].reset();
+            allFields.removeClass( "ui-state-error" );
+          }
+        });
+
+        form = dialog.find( "form" ).on( "submit", function( event ) {
+          event.preventDefault();
+          addUser();
+          geocoder.expand();
+
+        });
+
+        $( "#create-user" ).button().on( "click", function() {
+          dialog.dialog( "open" );
+                    geocoder.expand();
+        });
+      } );
+      </script>
 
 
 </head>
 <body>
+    <div id="dialog-form" title="About You">
+      <p class="validateTips">Please provide some basic information. Your email will not be shown on the map! </p>
+
+      <form>
+        <fieldset>
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" placeholder="Jane Smith" class="text ui-widget-content ui-corner-all">
+          <label for="email">Email</label>
+          <input type="text" name="email" id="email" placeholder="jane@smith.com" class="text ui-widget-content ui-corner-all">
+          <label for="org">Affiliated Organization</label>
+          <input type="text" name="org" id="org" value="Confederation of Map Nerds" class="text ui-widget-content ui-corner-all">
+
+          <!-- Allow form submission with keyboard without duplicating the dialog button -->
+          <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+        </fieldset>
+      </form>
+    </div>
   <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
   <nav id="sidebar-wrapper">
       <ul class="sidebar-nav">
@@ -100,6 +227,7 @@
   <div id="buttons" class="text-vertical-right pull-right col-md-4">
 
     <button onclick='update_map()' class="btn btn-dark btn-lg"   >Re-draw this Story</button>
+    <button id="create-user">Create new user</button>
     <a href ="#map"> <button onclick='geocoder.expand();' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a> <!--/took out map.removeLayer(all_layer_group)-->
   </div>
   <!-- <button onclick='postUserFeatures(initialTimestamp + Math.random(), "dumb web dev", "testing, hardcoded");' class="btn btn-dark btn-lg">Post Your Route</button> -->
@@ -259,6 +387,9 @@ function submitGeoj() {
       </div>
       <!-- /.container -->
   </section>
+
+
+
 
 
   <!-- Footer -->

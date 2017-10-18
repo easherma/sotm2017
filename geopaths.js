@@ -70,16 +70,21 @@ var postControl = L.Control.extend({
   onAdd: function (map) {
       var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
       container.innerHTML =
-      "<button id ='submitBtn' class='btn btn-dark btn-md' onclick='postUserFeatures(initialTimestamp + Math.random(), 'testing', 'nocustomform');' > I'm done, post my route!</button>"
-      //console.log(container)
-      container.onclick = function(){
-        submitBtn.onclick(postUserFeatures(initialTimestamp + Math.random(), "testing", "nocustomform"))
-
-      }
+      "<button id ='submitBtn' onclick='submitUserFeatures()' class='btn btn-dark btn-md'> I'm done, post my route!</button>"
+      console.log(container)
+    //   container.onclick = function(){
+    //     submitBtn.onclick(postUserFeatures(initialTimestamp + Math.random(), userName, userEmail, userOrg))
+      //
+    //   }
       return container;
+            console.log(container)
     }
 
 });
+
+function submitUserFeatures() {
+    postUserFeatures(initialTimestamp + Math.random(), userName, userEmail, userOrg);
+};
 
 function addSubmitBtn(confirmed_mark){
   var submitBtn = document.createElement('a');
@@ -123,13 +128,13 @@ function confirm() {
 
 }
 
-function submitListen() {
-  L.map.container.submitBtn.once('click',function(){
-
-    postUserFeatures(initialTimestamp + Math.random(), "testing", "nocustomform")
-
-  });
-}
+// function submitListen() {
+//   L.map.container.submitBtn.once('click',function(){
+//
+//     postUserFeatures(initialTimestamp + Math.random(), "testing", "nocustomform")
+//
+//   });
+// }
 
 
 
@@ -150,11 +155,12 @@ function submitGeoj() {
 
 }
 
-function postUserFeatures(user_id, name, description) {
+function postUserFeatures(user_id, name, email, org, other_data) {
   for (var i = 0; i < features.length; i++) {
     api.post_data(user_id, {lat:userCoords[i]['lat'], lng:userCoords[i]['lng']}, Number(i+1),
-  {"name": name,
-  "description": description,
+  {"name": userName,
+  "email": userEmail,
+  "org": userOrg,
   "pelias_properties": features[i]['properties']
 });
   }
