@@ -23,10 +23,10 @@ var all_layer_group = L.featureGroup();
 
     baseMapToken = 'pk.eyJ1IjoiZWFzaGVybWEiLCJhIjoiY2oxcW51Nzk2MDBkbTJxcGUxdm85bW5xayJ9.7mL0wQ7cjifWwt5DrXMuJA';
     // Replace 'mapbox.streets' with your map id.
-    var mapboxTiles = L.tileLayer('https://api.mapbox.com/styles/v1/easherma/cj8xmfroqh6mn2rntor9n7lfb/tiles/256/{z}/{x}/{y}?access_token=' + baseMapToken, {
+    var mapboxTiles = L.tileLayer('https://api.mapbox.com/styles/v1/easherma/cj8xnkyj8cd2f2ss9h0w7m8t9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZWFzaGVybWEiLCJhIjoiY2oxcW51Nzk2MDBkbTJxcGUxdm85bW5xayJ9.7mL0wQ7cjifWwt5DrXMuJA', {
         attribution: '© <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
-
+https://api.mapbox.com/styles/v1/easherma/cj8xnkyj8cd2f2ss9h0w7m8t9.html?fresh=true&title=true&access_token=pk.eyJ1IjoiZWFzaGVybWEiLCJhIjoiY2oxcW51Nzk2MDBkbTJxcGUxdm85bW5xayJ9.7mL0wQ7cjifWwt5DrXMuJA#5.0/41.984890/-103.780034/0
 // Show the whole world in this first view.
 var map = L.map('map', {
   bounceAtZoomLimits: false,
@@ -39,6 +39,28 @@ var map = L.map('map', {
 
 //custom event icon
 
+var cssIcon = L.divIcon({
+
+  // Specify a class name we can refer to in CSS.
+
+  className: 'css-icon',
+
+  html: '<div class="marker_ring"></div>'
+
+  // Set marker width and height
+
+  ,iconSize: [22,22]
+
+  // ,iconAnchor: [11,11]
+
+});
+
+
+
+// Create three markers and set their icons to cssIcon
+
+// L.marker([50.5, 30.5], {icon: cssIcon}).addTo(map);
+
 // var sotmIcon = L.Icon.extend({
 //     options: {
 //         iconUrl: './images/sotm.svg',
@@ -47,16 +69,16 @@ var map = L.map('map', {
 // });
 
 // var sotm2017Icon = new sotmIcon();
-var sotmIcon = L.icon({
-    iconUrl: './images/sotm.svg',
-    shadowUrl: './images/shadow.svg',
-    iconSize: [60, 60],
-    shadowSize: [68, 68],
-    className: 'sun'
-    });
-
-// create marker object, pass custom icon as option, add to map
-var marker = L.marker([40.0069373,-105.266386566938], {icon: sotmIcon}).addTo(map);
+// var sotmIcon = L.icon({
+//     iconUrl: './images/sotm.svg',
+//     shadowUrl: './images/shadow.svg',
+//     iconSize: [60, 60],
+//     shadowSize: [68, 68],
+//     className: 'sun'
+//     });
+//
+// // create marker object, pass custom icon as option, add to map
+var marker = L.marker([40.0069373,-105.266386566938], {icon: cssIcon}).addTo(map);
 
 
 var geocoder_options = {position: 'topright', placeholder: 'Enter your points here!', title: 'Enter your points here!'};

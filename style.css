@@ -6,55 +6,43 @@
   overflow-y : hidden;
 }
 
-.sun {
-  /*fill: red;
-  position: relative;*/
-  top: 5px;
-  width: 50px;
-  animation: pulse .9s ease infinite,
-}
+.css-icon {
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(2); }
-  100% { transform: scale(1); }
-}
 
-.pulsate path {
-  stroke: #2980b9;
-  -webkit-animation: pulsate 5s ease-out;
-  -webkit-animation-iteration-count: infinite;
-  -moz-animation: pulsate 5s ease-out;
-  -moz-animation-iteration-count: infinite;
-  -ms-animation: pulsate 5s ease-out;
-  -ms-animation-iteration-count: infinite;
-  animation: pulsate 5s ease-out;
-  animation-iteration-count: infinite;
-}
 
-@-webkit-keyframes pulsate {
-  0%    { opacity:0.4; stroke-width: 3; }
-  50%   { opacity:1.0; stroke-width: 5; }
-  100%  { opacity:0.4; stroke-width: 3; }
-}
+	}
 
-@-moz-keyframes pulsate {
-  0%    { opacity:0.4; stroke-width: 3; }
-  50%   { opacity:1.0; stroke-width: 5; }
-  100%  { opacity:0.4; stroke-width: 3; }
-}
 
-@-ms-keyframes pulsate {
-  0%    { opacity:0.4; stroke-width: 3; }
-  50%   { opacity:1.0; stroke-width: 5; }
-  100%  { opacity:0.4; stroke-width: 3; }
-}
 
-@keyframes pulsate {
-  0%    { opacity:0.4; stroke-width: 3; }
-  50%   { opacity:1.0; stroke-width: 5; }
-  100%  { opacity:0.4; stroke-width: 3; }
-}
+	.marker_ring {
+
+		border: 3px solid #fbd703;
+
+		 -webkit-border-radius: 30px;
+
+		 height: 18px;
+
+		 width: 18px;
+
+	    -webkit-animation: pulsate 1.5s ease-out;
+
+	    -webkit-animation-iteration-count: infinite;
+
+	    /*opacity: 0.0*/
+
+	}
+
+
+
+	@-webkit-keyframes pulsate {
+
+		    0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
+
+		    50% {opacity: 1.0;}
+
+		    100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+
+	}
 
 
 
