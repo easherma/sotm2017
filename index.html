@@ -11,6 +11,8 @@
   <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
   <script src="./mms_api.js"></script>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet' />
 
   <script src="L.Polyline.SnakeAnim.js"></script>
   <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
@@ -226,9 +228,10 @@
   </section>
   <div id="buttons" class="text-vertical-right pull-right col-md-4">
 
-    <button onclick='update_map()' class="btn btn-dark btn-lg"   >Re-draw this Story</button>
-    <button id="create-user">Create new user</button>
-    <a href ="#map"> <button onclick='geocoder.expand();' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a> <!--/took out map.removeLayer(all_layer_group)-->
+    <button onclick='all_layer_group.clearLayers();update_map();' class="btn btn-dark btn-lg"   >Re-draw this Story</button>
+    <a href ="#instructions"><button id="create-user" class="btn btn-lg btn-dark" style="background-color:#337AB7">Submit Your Route</button></a>
+    <!-- <a href ="#map"> <button onclick='geocoder.expand();' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a>  -->
+    <!--/took out map.removeLayer(all_layer_group)-->
   </div>
   <!-- <button onclick='postUserFeatures(initialTimestamp + Math.random(), "dumb web dev", "testing, hardcoded");' class="btn btn-dark btn-lg">Post Your Route</button> -->
   <!-- <a href="/{{id}}" target="_blank" class="btn btn-dark btn-lg" >Share this Story</a> -->

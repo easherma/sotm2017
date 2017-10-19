@@ -21,6 +21,11 @@ var all_layer_group = L.featureGroup();
     //.on('mouseover', function() { all_layer_group.setStyle(biggerLine) })
     //.on('mouseout', function() { all_layer_group.setStyle( normalLine ) });
 
+    baseMapToken = 'pk.eyJ1IjoiZWFzaGVybWEiLCJhIjoiY2oxcW51Nzk2MDBkbTJxcGUxdm85bW5xayJ9.7mL0wQ7cjifWwt5DrXMuJA';
+    // Replace 'mapbox.streets' with your map id.
+    var mapboxTiles = L.tileLayer('https://api.mapbox.com/styles/v1/easherma/cj8xmfroqh6mn2rntor9n7lfb/tiles/256/{z}/{x}/{y}?access_token=' + baseMapToken, {
+        attribution: '© <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
 
 // Show the whole world in this first view.
 var map = L.map('map', {
@@ -30,8 +35,27 @@ var map = L.map('map', {
   minZoom: 2,
   continuousWorld: false,
   layers: [confirmed_pts,user_layer_group,all_layer_group] //layers added here are shown by default
-}).setView([20, 0], 2);
-L.tileLayer('https://a.tiles.mapbox.com/v3/mapbox.world-bright/{z}/{x}/{y}.png').addTo(map);
+}).addLayer(mapboxTiles).setView([20, 0], 2);
+
+//custom event icon
+
+// var sotmIcon = L.Icon.extend({
+//     options: {
+//         iconUrl: './images/sotm.svg',
+//         iconSize: [60, 60]
+//     }
+// });
+
+// var sotm2017Icon = new sotmIcon();
+var sotmIcon = L.icon({
+    iconUrl: './images/sotm.svg',
+    iconSize: [60, 60],
+    className: '.icon-sun'
+    });
+
+// create marker object, pass custom icon as option, add to map
+var marker = L.marker([40.0069373,-105.266386566938], {icon: sotmIcon}).addTo(map);
+
 
 var geocoder_options = {position: 'topright', placeholder: 'Enter your points here!', title: 'Enter your points here!'};
 var geocoder =  L.control.geocoder('search-daf-vyw', geocoder_options).addTo(map);
@@ -53,8 +77,8 @@ var baseMaps = {
   "none" : L.layerGroup()
 };
 var overlayMaps = {
-  "confirmed": confirmed_pts,
-  "submitted": user_layer_group
+  // "confirmed": confirmed_pts,
+  // "submitted": user_layer_group
 };
 var overlayControl = L.control.layers(baseMaps,overlayMaps);
 overlayControl.options.position = 'bottomright';
@@ -173,12 +197,12 @@ function polylineAnim(coords, label) {
   //line.addTo(all_layer_group).snakeIn();
   for (var j = 1; j < coords.length; j ++){
     color = getRandomColor()
-    var line = L.polyline(coords, {snakingSpeed: 450, color:color, opacity: .05 , weight: 2});
+    var line = L.polyline(coords, {snakingSpeed: 450, color:color, opacity: .5 , weight: 3});
       (line);
       ////console.log("coords lenght: " , coords)
       for (var i = 0; i < coords.length; i++) {
-        var point = L.circleMarker(coords[i], {radius: 2.5,color:color,opacity: .05, stroke: true, weight: .5, fill:true});
-        point.addTo(map);
+        var point = L.circleMarker(coords[i], {radius: 3,color:color,opacity: .6, stroke: false, weight: .5, fill:true});
+        point.addTo(all_layer_group);
         point.bindPopup(label);
       }
     //var point = L.circleMarker(coords);
@@ -221,6 +245,7 @@ function getRandomColor() {
 // Executes periodically and indefinitely until server returns an error.
 // Operates asynchronously, so control flow is not tied up in this func.
 function update_map() {
+
   api.get_data_for_all();
   /*$.ajax({
     type : "GET",
