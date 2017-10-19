@@ -49,8 +49,10 @@ var map = L.map('map', {
 // var sotm2017Icon = new sotmIcon();
 var sotmIcon = L.icon({
     iconUrl: './images/sotm.svg',
+    shadowUrl: './images/shadow.svg',
     iconSize: [60, 60],
-    className: '.icon-sun'
+    shadowSize: [68, 68],
+    className: 'sun'
     });
 
 // create marker object, pass custom icon as option, add to map
