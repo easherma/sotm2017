@@ -1,5 +1,3 @@
-
-
 function API(username, table_name){
     this.username=username;
     this.table_name = table_name;
@@ -53,13 +51,15 @@ API.prototype.get_data_for_all= function(callback){
                         var labelData = feature.properties.other_data;
                         //console.log(labelData.length);
                         labels = [];
+                        labels.push("<b>" + labelData[0]['name'] + "</b> of <b> " + labelData[0]['org']+ "</b><br>");
+
                         for (var i = 0; i < labelData.length; i++) {
-                          labels.push("<b>Point " + (labelData.length - i ) + ": </b>" + labelData[i]['pelias_properties']['label'] +"<br>" /* + "<br>/* Description: " +  labelData[i]['description'] + *"<br> Name: " + labelData[i]['name']*/
+                          labels.push( "<b>Point " + (labelData.length - i ) + ": </b>" + labelData[i]['pelias_properties']['label'] +"<br>" /* + "<br>/* Description: " +  labelData[i]['description'] + *"<br> Name: " + labelData[i]['name']*/
                         )
                           ////console.log(labelData[i]);
                         }
 
-                        var chosenLabels = JSON.stringify(labels).replace(/\"/g, "").replace(/[\[\]']+/g, '').replace(/,/g , '');
+                        var chosenLabels = JSON.stringify(labels).replace(/\"/g, "").replace(/[\[\]']+/g, '').replace(/,/g , ',');
                         ////console.log(labelData[0].pelias_properties);
                         ////console.log(labelData);
                         coords = feature.geometry.coordinates;

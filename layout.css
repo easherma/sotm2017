@@ -10,6 +10,7 @@ html,
 body {
     width: 100%;
     height: 100%;
+    /*background-color: #fbd703;*/
 }
 
 body {
@@ -29,14 +30,41 @@ body {
     font-weight: 700;
 }
 
+.bottom-align-text {
+  position: relative;
+  top: 110px;
+  right: 0;
+}
+.arrow {
+  position: relative;
+  top: 50px;
+  right: 0;
+}
+
+.text-vertical-left h1 {
+    margin: 2px;
+    padding-left: 9%;
+    font-size: 4.5em;
+    font-weight: 700;
+}
+
+.text-vertical-left h2 {
+    margin: 2px;
+    padding-left: 9%;
+    padding-top: 6%;
+    font-size: 3em;
+    font-weight: 700;
+    color: #283277;
+}
+
 .row #buttons {
 
 
 }
 
-.text-vertical-center h3 {
+.text-vertical-left h3 {
     text-align: left;
-    padding-left: 8%;
+    padding-left: 9%;
 }
 
 /* Custom Button Styles */
@@ -206,25 +234,46 @@ hr.small {
 
 .header {
     display: table;
+    overflow: hidden;
     position: relative;
     width: 100%;
-    height: 5%;
+    height: 20%;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
+    /*background-image: url(https://2017.stateofthemap.us/assets/graphics/content/boulder-horizon.jpg);
+    */
+}
+
+.header h1 {
+    /*padding: 200px;*/
+    position: relative;
+    z-index: 2;
+    color: #283277;
+}
+
+.header img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    opacity: 0.6;
 }
 
 /* About */
 
 .about {
     padding: 50px 0;
+    /*background-color: #d22144;*/
 }
 
-/* Services */
+/* map */
 
-.services {
-    padding: 45px 0;
+.map {
+    /*padding: 45px 0;*/
+    background-color: bg-primary;
 }
 
 .service-item {
@@ -263,5 +312,5 @@ overflow: visible;
 
 footer {
     padding: 100px 0;
-	/*background-color: #337ab7; */
+	background-color: #d22144;
 }

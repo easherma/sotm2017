@@ -23,7 +23,7 @@ var all_layer_group = L.featureGroup();
 
     baseMapToken = 'pk.eyJ1IjoiZWFzaGVybWEiLCJhIjoiY2oxcW51Nzk2MDBkbTJxcGUxdm85bW5xayJ9.7mL0wQ7cjifWwt5DrXMuJA';
     // Replace 'mapbox.streets' with your map id.
-    var mapboxTiles = L.tileLayer('https://api.mapbox.com/styles/v1/easherma/cj8xnkyj8cd2f2ss9h0w7m8t9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZWFzaGVybWEiLCJhIjoiY2oxcW51Nzk2MDBkbTJxcGUxdm85bW5xayJ9.7mL0wQ7cjifWwt5DrXMuJA', {
+    var mapboxTiles = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
 https://api.mapbox.com/styles/v1/easherma/cj8xnkyj8cd2f2ss9h0w7m8t9.html?fresh=true&title=true&access_token=pk.eyJ1IjoiZWFzaGVybWEiLCJhIjoiY2oxcW51Nzk2MDBkbTJxcGUxdm85bW5xayJ9.7mL0wQ7cjifWwt5DrXMuJA#5.0/41.984890/-103.780034/0
@@ -32,7 +32,7 @@ var map = L.map('map', {
   bounceAtZoomLimits: false,
   maxBounds: [[-85.0, -180.0],[85.0, 180.0]],
   inertia: false,
-  minZoom: 2,
+  minZoom: 2.5,
   continuousWorld: false,
   layers: [confirmed_pts,user_layer_group,all_layer_group] //layers added here are shown by default
 }).addLayer(mapboxTiles).setView([20, 0], 2);
@@ -227,7 +227,7 @@ function polylineAnim(coords, label) {
       for (var i = 0; i < coords.length; i++) {
         var point = L.circleMarker(coords[i], {radius: 3,color:color,opacity: .6, stroke: false, weight: .5, fill:true});
         point.addTo(all_layer_group);
-        point.bindPopup(label);
+        point.bindPopup(label); //not used?
       }
     //var point = L.circleMarker(coords);
     //point.addTo(map);
