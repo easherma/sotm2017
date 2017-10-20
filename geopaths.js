@@ -34,8 +34,7 @@ var map = L.map('map', {
   inertia: false,
   minZoom: 2.5,
   continuousWorld: false,
-  if(L.Browser.mobile){
-  {dragging: false}
+  dragging: !L.Browser.mobile,
 },
   layers: [confirmed_pts,user_layer_group,all_layer_group] //layers added here are shown by default
 }).addLayer(mapboxTiles).setView([20, 0], 2);
