@@ -72,6 +72,10 @@ body {
 
 /* Custom Button Styles */
 
+img.img-fluid {
+    padding-left: 120px;
+}
+
 .btn-dark {
     border-radius: 0;
     color: #fff;
