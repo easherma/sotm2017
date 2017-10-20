@@ -27,7 +27,7 @@
   label, input { display:block; }
   input.text { margin-bottom:12px; width:95%; padding: .4em; }
   fieldset { padding:0; border:0; margin-top:25px; }
-  h1 { font-size: 1.2em; margin: .6em 0; }
+  /*h1 { font-size: 1.2em; margin: .6em 0; }*/
   div#users-contain { width: 350px; margin: 20px 0; }
   div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
   div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
@@ -218,10 +218,11 @@
 
           <div class="row">
 
-        <span class="text-vertical-left  col-md-4">
-<h3>We all know where we are right now (more or less). Tell us how you got here. Be as detailed or as general as you'd like!</hh3>
-
-<h3>Once you submit your locations, we'll trace it on the map, where you can also see it along with the other submissions! </h3>
+        <span class="text-vertical-left  col-md-4 lead">
+<p>We all know where we are right now (more or less). Tell us how you got here. Be as detailed or as general as you'd like!</p>
+</span>
+<span class="text-vertical-left  lead col-md-4">
+<p>Once you submit your locations, we'll trace it on the map, where you can also see it along with the other submissions! </p>
 </span>
 
                   <!-- /.row (nested) -->
@@ -232,7 +233,7 @@
 <!-- </span> -->
 
   <!-- <span id="getstarted" class="text-vertical-right pull-right col-md-4"> -->
-                              <img class="img-responsive   col-md-4  arrow" src="./images/downward-rotation.svg">
+                              <img class="img-fluid visible-lg col-md-4  arrow" src="./images/downward-rotation.svg">
 
 </span>
           </div>
@@ -242,13 +243,17 @@
       </div>
       <!-- /.container -->
   </section>
-  <div id="buttons" class="text-vertical-right pull-right col-md-4">
+  <div class="container-fluid">
+  <span id="buttons" class="pull-right col-xs-12 btn-group" style="padding-right:65px">
 
-    <button onclick='all_layer_group.clearLayers();update_map();' class="btn btn-dark btn-lg"   >Re-draw this Story</button>
-    <a href ="#instructions"><button id="create-user" class="btn btn-lg btn-dark" style="background-color:#337AB7">Submit Your Route</button></a>
+    <button onclick='all_layer_group.clearLayers();update_map();' class="btn btn-dark btn-lg"  >Re-draw this Story</button>
+
+
+    <button id="create-user" class="btn btn-lg btn-dark" style="background-color:#337AB7">Submit Your Route</button>
     <!-- <a href ="#map"> <button onclick='geocoder.expand();' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a>  -->
     <!--/took out map.removeLayer(all_layer_group)-->
-  </div>
+  </span>
+</div>
   <!-- <button onclick='postUserFeatures(initialTimestamp + Math.random(), "dumb web dev", "testing, hardcoded");' class="btn btn-dark btn-lg">Post Your Route</button> -->
   <!-- <a href="/{{id}}" target="_blank" class="btn btn-dark btn-lg" >Share this Story</a> -->
 

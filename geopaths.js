@@ -39,6 +39,22 @@ var map = L.map('map', {
 
 //custom event icon
 
+var mapmargin = 50;
+$('#map').css("height", ($(window).height() - mapmargin));
+$(window).on("resize", resize);
+resize();
+function resize(){
+
+    if($(window).width()>=980){
+        $('#map').css("height", ($(window).height() - mapmargin));
+        $('#map').css("margin-top",50);
+    }else{
+        $('#map').css("height", ($(window).height() - (mapmargin+12)));
+        $('#map').css("margin-top",-21);
+    }
+
+}
+
 var cssIcon = L.divIcon({
 
   // Specify a class name we can refer to in CSS.
