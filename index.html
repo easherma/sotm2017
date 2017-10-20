@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>SOTM</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
-    integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
-    crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
-  integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
-  crossorigin=""></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.0/leaflet-geocoder-mapzen.js"></script>
   <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
@@ -20,247 +17,289 @@
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet'/> -->
 
   <script src="L.Polyline.SnakeAnim.js"></script>
-  <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link href="layout.css" type="text/css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="stylesheet" type="text/css" href="pelias-leaflet-geocoder.css">
   <link rel="stylesheet" type="text/css" href="theme.min.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <style>
-  label, input { display:block; }
-  input.text { margin-bottom:12px; width:95%; padding: .4em; }
-  fieldset { padding:0; border:0; margin-top:5px; }
-  /*h1 { font-size: 1.2em; margin: .6em 0; }*/
-  div#users-contain { width: 350px; margin: 20px 0; }
-  div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-  div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
-  .ui-dialog .ui-state-error { padding: .3em; }
-  .validateTips { border: 1px solid transparent; padding: 0.2em; margin:auto; }
-</style>
-    <script>
-      $( function() {
-        var dialog, form,
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <style>
+    label,
+    input {
+      display: block;
+    }
 
-          // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
-          emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-          name = $( "#name" ),
-          email = $( "#email" ),
-          org = $( "#org" ),
-          allFields = $( [] ).add( name ).add( email ).add( org ),
-          tips = $( ".validateTips" );
+    input.text {
+      margin-bottom: 12px;
+      width: 95%;
+      padding: .4em;
+    }
 
-        function updateTips( t ) {
-          tips
-            .text( t )
-            .addClass( "ui-state-highlight" );
-          setTimeout(function() {
-            tips.removeClass( "ui-state-highlight", 1500 );
-          }, 500 );
+    fieldset {
+      padding: 0;
+      border: 0;
+      margin-top: 5px;
+    }
+    /*h1 { font-size: 1.2em; margin: .6em 0; }*/
+
+    div#users-contain {
+      width: 350px;
+      margin: 20px 0;
+    }
+
+    div#users-contain table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    div#users-contain table td,
+    div#users-contain table th {
+      border: 1px solid #eee;
+      padding: .6em 10px;
+      text-align: left;
+    }
+
+    .ui-dialog .ui-state-error {
+      padding: .3em;
+    }
+
+    .validateTips {
+      border: 1px solid transparent;
+      padding: 0.2em;
+      margin: auto;
+    }
+  </style>
+  <script>
+    $(function() {
+      var dialog, form,
+
+        // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
+        emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+        name = $("#name"),
+        email = $("#email"),
+        org = $("#org"),
+        allFields = $([]).add(name).add(email).add(org),
+        tips = $(".validateTips");
+
+      function updateTips(t) {
+        tips
+          .text(t)
+          .addClass("ui-state-highlight");
+        setTimeout(function() {
+          tips.removeClass("ui-state-highlight", 1500);
+        }, 500);
+      }
+
+      function checkLength(o, n, min, max) {
+        if (o.val().length > max || o.val().length < min) {
+          o.addClass("ui-state-error");
+          updateTips("Length of " + n + " must be between " +
+            min + " and " + max + ".");
+          return false;
+        } else {
+          return true;
         }
+      }
 
-        function checkLength( o, n, min, max ) {
-          if ( o.val().length > max || o.val().length < min ) {
-            o.addClass( "ui-state-error" );
-            updateTips( "Length of " + n + " must be between " +
-              min + " and " + max + "." );
-            return false;
-          } else {
-            return true;
-          }
+      function checkRegexp(o, regexp, n) {
+        if (!(regexp.test(o.val()))) {
+          o.addClass("ui-state-error");
+          updateTips(n);
+          return false;
+        } else {
+          return true;
         }
+      }
 
-        function checkRegexp( o, regexp, n ) {
-          if ( !( regexp.test( o.val() ) ) ) {
-            o.addClass( "ui-state-error" );
-            updateTips( n );
-            return false;
-          } else {
-            return true;
-          }
+      function addUser() {
+        var valid = true;
+        allFields.removeClass("ui-state-error");
+
+        valid = valid && checkLength(name, "username", 3, 80);
+        valid = valid && checkLength(email, "email", 0, 80);
+        valid = valid && checkLength(org, "org", 0, 80);
+        valid = valid && checkRegexp(name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter.");
+        valid = valid && checkRegexp(email, emailRegex, "eg. ui@jquery.com");
+
+        if (valid) {
+          // $( "#users tbody" ).append( "<tr>" +
+          //   "<td>" + name.val() + "</td>" +
+          //   "<td>" + email.val() + "</td>" +
+          //   "<td>" + org.val() + "</td>" +
+          // "</tr>" );
+          userName = name.val();
+          userEmail = email.val();
+          userOrg = org.val();
+          dialog.dialog("close");
         }
+        return valid;
 
-        function addUser() {
-          var valid = true;
-          allFields.removeClass( "ui-state-error" );
+      }
 
-          valid = valid && checkLength( name, "username", 3, 80 );
-          valid = valid && checkLength( email, "email", 0, 80 );
-          valid = valid && checkLength( org, "org", 0, 80 );
-          valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
-          valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
-
-          if ( valid ) {
-            // $( "#users tbody" ).append( "<tr>" +
-            //   "<td>" + name.val() + "</td>" +
-            //   "<td>" + email.val() + "</td>" +
-            //   "<td>" + org.val() + "</td>" +
-            // "</tr>" );
-            userName = name.val();
-            userEmail = email.val();
-            userOrg = org.val();
-            dialog.dialog( "close" );
+      dialog = $("#dialog-form").dialog({
+        autoOpen: false,
+        height: 400,
+        width: 350,
+        modal: true,
+        buttons: {
+          "Let's Get Mapping!": addUser,
+          Cancel: function() {
+            dialog.dialog("close");
           }
-          return valid;
-
+        },
+        close: function() {
+          form[0].reset();
+          allFields.removeClass("ui-state-error");
         }
+      });
 
-        dialog = $( "#dialog-form" ).dialog({
-          autoOpen: false,
-          height: 400,
-          width: 350,
-          modal: true,
-          buttons: {
-            "Let's Get Mapping!": addUser,
-            Cancel: function() {
-              dialog.dialog( "close" );
-            }
-          },
-          close: function() {
-            form[ 0 ].reset();
-            allFields.removeClass( "ui-state-error" );
-          }
-        });
+      form = dialog.find("form").on("submit", function(event) {
+        event.preventDefault();
+        addUser();
+        geocoder.expand();
 
-        form = dialog.find( "form" ).on( "submit", function( event ) {
-          event.preventDefault();
-          addUser();
-          geocoder.expand();
+      });
 
-        });
-
-        $( "#create-user" ).button().on( "click", function() {
-          dialog.dialog( "open" );
-                    geocoder.expand();
-        });
-      } );
-      </script>
+      $("#create-user").button().on("click", function() {
+        dialog.dialog("open");
+        geocoder.expand();
+      });
+    });
+  </script>
 
 
 </head>
+
 <body>
-    <div id="dialog-form" title="About You">
-      <p class="validateTips">Your email will not be shown on the map!</p>
+  <div id="dialog-form" title="About You">
+    <p class="validateTips">Your email will not be shown on the map!</p>
 
-      <form>
-        <fieldset>
-          <label for="name">Name</label>
-          <input type="text" name="name" id="name" placeholder="Jane Smith" class="text ui-widget-content ui-corner-all">
-          <label for="email">Email</label>
-          <input type="text" name="email" id="email" placeholder="jane@smith.com" class="text ui-widget-content ui-corner-all">
-          <label for="org">Affiliated Organization</label>
-          <input type="text" name="org" id="org" value="Confederation of Map Nerds" class="text ui-widget-content ui-corner-all">
+    <form>
+      <fieldset>
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" placeholder="Jane Smith" class="text ui-widget-content ui-corner-all">
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" placeholder="jane@smith.com" class="text ui-widget-content ui-corner-all">
+        <label for="org">Affiliated Organization</label>
+        <input type="text" name="org" id="org" value="Confederation of Map Nerds" class="text ui-widget-content ui-corner-all">
 
-          <!-- Allow form submission with keyboard without duplicating the dialog button -->
-          <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-        </fieldset>
-      </form>
-    </div>
+        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+        <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+      </fieldset>
+    </form>
+  </div>
   <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
   <nav id="sidebar-wrapper">
-      <ul class="sidebar-nav">
-          <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
-          <li class="sidebar-brand">
-              <a href="#top"  onclick = $("#menu-close").click(); >Map My Story</a>
-          </li>
-          <li>
-              <a href="#map" onclick = $("#menu-close").click(); >Explore the Map</a>
-          </li>
-          <li>
-              <a href="#instructions" onclick = $("#menu-close").click(); >How does this work?</a>
-          </li>
-          <li>
-              <a href="#about" onclick = $("#menu-close").click(); >About</a>
-          </li>
-          <li class = "hidden">
-              <a href="#contact" onclick = $("#menu-close").click(); >Contact</a>
-          </li>
-      </ul>
+    <ul class="sidebar-nav">
+      <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+      <li class="sidebar-brand">
+        <a href="#top" onclick=$ ( "#menu-close").click();>Map My Story</a>
+      </li>
+      <li>
+        <a href="#map" onclick=$ ( "#menu-close").click();>Explore the Map</a>
+      </li>
+      <li>
+        <a href="#instructions" onclick=$ ( "#menu-close").click();>How does this work?</a>
+      </li>
+      <li>
+        <a href="#about" onclick=$ ( "#menu-close").click();>About</a>
+      </li>
+      <li class="hidden">
+        <a href="#contact" onclick=$ ( "#menu-close").click();>Contact</a>
+      </li>
+    </ul>
   </nav>
 
-      <script> -->
-      api = new API("easherma", "SOTM_2017")
-        //var geoj = {{carto_geoj|tojson}};
-        //var geoj = []
+  <script>
+    -- >
+    api = new API("easherma", "SOTM_2017")
+      //var geoj = {{carto_geoj|tojson}};
+      //var geoj = []
+  </script>
+  <script>
+    //var geoplaces = {{ carto_places|tojson }};
+    var geoplaces = [];
+  </script>
+  <script>
+    //var prevRowId = {{ last_row_id }};
+    var prevRowId = []
+  </script>
+  <script src="notes.js"></script>
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-
-      </script>
-      <script>
-        //var geoplaces = {{ carto_places|tojson }};
-        var geoplaces = [];
-      </script>
-      <script>
-        //var prevRowId = {{ last_row_id }};
-        var prevRowId = []
-      </script>
-      <script src="notes.js"></script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-81210576-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
+    ga('create', 'UA-81210576-1', 'auto');
+    ga('send', 'pageview');
+  </script>
 
   <!-- Header -->
   <header id="top" class="header">
-  <div class="row">
+    <div class="row">
       <div class="text-vertical-left col-md-5">
         <h1>Map Our Story: State Of The Map US<!--    <span class="h3">  Map and share your migration story--></h1>
-        </div>
+      </div>
       <div class="text-vertical-left   col-md-5">
-          <h2> October 20th to 22nd, 2017</h2>
-        </div>
+        <h2> October 20th to 22nd, 2017</h2>
+      </div>
       <img src="https://2017.stateofthemap.us/assets/graphics/content/boulder-horizon.jpg">
 
     </div>
   </header>
   <section id="instructions" class="instructions bg-primary">
 
-          <div class="row">
+    <div class="row">
 
-        <span class="text-vertical-left  col-md-4 lead">
+      <span class="text-vertical-left  col-md-4 lead">
 <p>We all know where we are right now (more or less). Tell us how you got here. Be as detailed or as general as you'd like!</p>
 </span>
-<span class="text-vertical-left  lead col-md-4">
+      <span class="text-vertical-left  lead col-md-4">
 <p>Once you submit your locations, we'll trace it on the map, where you can also see it along with the other submissions! </p>
 </span>
-<span class="text-vertical-left  lead col-md-4">
+      <span class="text-vertical-left  lead col-md-4">
 <p>Click 'Submit Your Route' to get started.</p>
 </span>
-  <div class="row">
-<span class="col-xs-10 col-md-4 ">
+      <div class="row">
+        <span class="col-xs-10 col-md-4 ">
 <img class="img-fluid" src="./images/downward-rotation.svg">
 </span>
-</div>
+      </div>
 
 
-                  <!-- /.row (nested) -->
+      <!-- /.row (nested) -->
 
-              <span id="getstarted" class="text-vertical-right pull-right align-text-bottom lead col-md-4">
+      <span id="getstarted" class="text-vertical-right pull-right align-text-bottom lead col-md-4">
 
               <!-- <h4 class="bottom-align-text col-xs-10 lead col-md-4"> Click 'Submit Your Route' to get started.</h4> -->
 <!-- </span> -->
 
 
-  <!-- <span id="getstarted" class="text-vertical-right pull-right col-md-4"> -->
+      <!-- <span id="getstarted" class="text-vertical-right pull-right col-md-4"> -->
 
 
 
-</span>
-          </div>
+      </span>
+    </div>
 
 
-          <!-- /.row -->
-      </div>
-      <!-- /.container -->
+    <!-- /.row -->
+    </div>
+    <!-- /.container -->
   </section>
   <div class="container-fluid">
-  <span id="buttons" class="pull-right col-xs-10  col-md-3 btn-group" style="padding-right:65px">
+    <span id="buttons" class="pull-right col-xs-10  col-md-3 btn-group" style="padding-right:65px">
         <button id="create-user" class="btn btn-lg btn-dark" style="background-color:#337AB7">Submit Your Route</button>
 
     <button onclick='all_layer_group.clearLayers();update_map();' class="btn btn-dark btn-lg"  >Re-draw this Story</button>
@@ -270,7 +309,7 @@
     <!-- <a href ="#map"> <button onclick='geocoder.expand();' class="btn btn-lg btn-dark" style="background-color:#337AB7"  >Submit Your Story</button></a>  -->
     <!--/took out map.removeLayer(all_layer_group)-->
   </span>
-</div>
+  </div>
   <!-- <button onclick='postUserFeatures(initialTimestamp + Math.random(), "dumb web dev", "testing, hardcoded");' class="btn btn-dark btn-lg">Post Your Route</button> -->
   <!-- <a href="/{{id}}" target="_blank" class="btn btn-dark btn-lg" >Share this Story</a> -->
 
@@ -281,17 +320,16 @@
   <!-- <div id="map"> -->
 
   <script>
+    function plotUser() {
 
-  function plotUser() {
+      function plotMarkers(latlng) {
+        L.marker(latlng).addTo(map);
+      };
+      var markers = userCoords.forEach(plotMarkers);
+      return markers;
+    }
 
-    function plotMarkers ( latlng ) {
-      L.marker( latlng ).addTo(map);
-    };
-    var markers = userCoords.forEach(plotMarkers);
-    return markers;
-  }
-
-  var api = new API("easherma", "SOTM_2017");
+    var api = new API("easherma", "SOTM_2017");
     /* var map = L.map('map').setView([37.804146, -122.275045], 16);
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
@@ -304,140 +342,140 @@
     //var userStories = [];
 
     sessionStorage.setItem("stories", "");
-    if (sessionStorage > 1)
-    {var allGeo2 = JSON.parse(sessionStorage.stories)}
+    if (sessionStorage > 1) {
+      var allGeo2 = JSON.parse(sessionStorage.stories)
+    }
     var features = [];
     L.geoJson(features).addTo(map); //storypoints
     //var polyline = L.polyline(
 
     userLayer = L.featureGroup();
     var allStories = [];
-    var  timestamps = [];
-//listening to event geocoder
-geocoder.on('select', function (e) {
-  //get the selected feature, push it to a features array
+    var timestamps = [];
+    //listening to event geocoder
+    geocoder.on('select', function(e) {
+      //get the selected feature, push it to a features array
 
-  feature = e.feature;
-
-
-  timestamps.push(e.originalEvent['timeStamp']);
-  initialTimestamp = timestamps[0];
-  console.log(feature);
-//coords  for polylines, pushes polylines to features
-  geocoderCoords = e.latlng;
-  var popup = L.popup()
-    .setLatLng(geocoder.marker._latlng)
-    //.setContent("<button>First name:<br><input type='text' name='firstname' value='Your first name' ><br>Last name:<br><input type='text' name='RaisonSociale' value='Your last name'><input class='click' type='submit' name='submit' value='Sent'></button>")
-    .setContent(e.feature.properties.name + ' <button onclick= "confirm(resetCloseInput());" type="submit" class="btn btn-md btn-dark" style="background-color:#337AB7">Confirm</button> <button onclick= "userCoords = [];features = [];geocoder.resetInput();map.closePopup();" type="reset" class="btn btn-md btn-dark">Clear</button>')
-    .openOn(map);
-  console.log(e.latlng)
-//  if (userCoords.length > 1)
-//return polyline;
-//  userLayer.bindPopup("TESTING" + userLabels[0] + " to: " + userLabels[1]);
-//  userLayer.addTo(map);
-
-});
+      feature = e.feature;
 
 
+      timestamps.push(e.originalEvent['timeStamp']);
+      initialTimestamp = timestamps[0];
+      console.log(feature);
+      //coords  for polylines, pushes polylines to features
+      geocoderCoords = e.latlng;
+      var popup = L.popup()
+        .setLatLng(geocoder.marker._latlng)
+        //.setContent("<button>First name:<br><input type='text' name='firstname' value='Your first name' ><br>Last name:<br><input type='text' name='RaisonSociale' value='Your last name'><input class='click' type='submit' name='submit' value='Sent'></button>")
+        .setContent(e.feature.properties.name + ' <button onclick= "confirm(resetCloseInput());" type="submit" class="btn btn-md btn-dark" style="background-color:#337AB7">Confirm</button> <button onclick= "userCoords = [];features = [];geocoder.resetInput();map.closePopup();" type="reset" class="btn btn-md btn-dark">Clear</button>')
+        .openOn(map);
+      console.log(e.latlng)
+        //  if (userCoords.length > 1)
+        //return polyline;
+        //  userLayer.bindPopup("TESTING" + userLabels[0] + " to: " + userLabels[1]);
+        //  userLayer.addTo(map);
 
-/* not used atm, I think I was trying to sketch out how to handle backend to/froms
-function submitStory() {
-  allStories.push([userStories]);
-  userStories = []
-  //selection = []
-}
-*/
-function submitGeoj() {
-
-  features.forEach(function(i) {allGeo.features.push(i)});
-  userCoords = [];
-  console.log(JSON.stringify(allGeo));
-  sessionStorage.setItem("stories", JSON.stringify(allGeo));
-  features = [];
-
-}
-
-//allGeo.features[0]['geometry']['type']
+    });
 
 
 
+    /* not used atm, I think I was trying to sketch out how to handle backend to/froms
+    function submitStory() {
+      allStories.push([userStories]);
+      userStories = []
+      //selection = []
+    }
+    */
+    function submitGeoj() {
+
+      features.forEach(function(i) {
+        allGeo.features.push(i)
+      });
+      userCoords = [];
+      console.log(JSON.stringify(allGeo));
+      sessionStorage.setItem("stories", JSON.stringify(allGeo));
+      features = [];
+
+    }
+
+    //allGeo.features[0]['geometry']['type']
   </script>
   </div>
   <!-- Custom Theme JavaScript -->
   <script>
-  // Closes the sidebar menu
-  $("#menu-close").click(function(e) {
+    // Closes the sidebar menu
+    $("#menu-close").click(function(e) {
       e.preventDefault();
       $("#sidebar-wrapper").toggleClass("active");
-  });
+    });
 
-  // Opens the sidebar menu
-  $("#menu-toggle").click(function(e) {
+    // Opens the sidebar menu
+    $("#menu-toggle").click(function(e) {
       e.preventDefault();
       $("#sidebar-wrapper").toggleClass("active");
-  });
+    });
 
-  // Scrolls to the selected menu item on the page
-  /*$(function() {
-      $('a[href*=#]:not([href=#])').click(function() {
-          if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+    // Scrolls to the selected menu item on the page
+    /*$(function() {
+        $('a[href*=#]:not([href=#])').click(function() {
+            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
 
-              var target = $(this.hash);
-              target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-              if (target.length) {
-                  $('html,body').animate({
-                      scrollTop: target.offset().top
-                  }, 1000);
-                  return false;
-              }
-          }
-      });
-  });*/
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                if (target.length) {
+                    $('html,body').animate({
+                        scrollTop: target.offset().top
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+    });*/
   </script>
 
   <!-- Call to Action -->
   <aside class="call-to-action bg-primary">
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-12 text-center">
-                  <!--<a href="#map" class="btn btn-lg btn-light">Add Your Story!</a>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <!--<a href="#map" class="btn btn-lg btn-light">Add Your Story!</a>
                   <a href="#signup" class="btn btn-lg btn-dark">Stay In Touch!</a>-->
-                  <h3> Thanks for playing! <a href="https://osgisomg.com/">OSGISOMG!</a> </h3>
-              </div>
-          </div>
+          <h3> Thanks for playing! <a href="https://osgisomg.com/">OSGISOMG!</a> </h3>
+        </div>
       </div>
+    </div>
   </aside>
 
 
   <!-- About -->
   <section id="about" class="about">
-      <div class="container-fluid">
-          <div class="text-vertical-left col-md-12">
+    <div class="container-fluid">
+      <div class="text-vertical-left col-md-12">
 
         <h2>About:</h2>
 
-          <h2> Who Made This? </h2>
+        <h2> Who Made This? </h2>
 
 
-        <p class = "lead"> I, Eric Sherman, standing on the shoulders of giants. </p>
+        <p class="lead"> I, Eric Sherman, standing on the shoulders of giants. </p>
 
         <h2> But Why? </h2>
 
-        <p class = "lead"> Mostly for fun and as a way to talk to people and build something fun. (Also maybe hire me for something, eh?)  </p>
+        <p class="lead"> Mostly for fun and as a way to talk to people and build something fun. (Also maybe hire me for something, eh?) </p>
 
-                  <p class = "lead">Follow on twitter @OSGISOMG </p>
-                  <p class = "lead">email me at ericandrewsherman at gmail.com</p>
-                  <p><a href="/OSGIS"> Check out the OSGIS Guide!</a>
-                    <p><a href="https://soundcloud.com/user-987474427/1-pissed-off-optimists "> Check out my podcast!</a>
+        <p class="lead">Follow on twitter @OSGISOMG </p>
+        <p class="lead">email me at ericandrewsherman at gmail.com</p>
+        <p><a href="/OSGIS"> Check out the OSGIS Guide!</a>
+          <p><a href="https://soundcloud.com/user-987474427/1-pissed-off-optimists "> Check out my podcast!</a>
 
-              <div class="col-lg-5 col-lg-offset-1 text-left">
-                          <!--<iframe id='signup' src="https://docs.google.com/forms/d/1JYwnBkVeSqjPiL-HYAwGIjs1RL285Aiy5mJVAoQbllM/viewform?embedded=true" width="100%" height="465" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">Loading...</iframe> -->
-              </div>
-                </div>
-
+            <div class="col-lg-5 col-lg-offset-1 text-left">
+              <!--<iframe id='signup' src="https://docs.google.com/forms/d/1JYwnBkVeSqjPiL-HYAwGIjs1RL285Aiy5mJVAoQbllM/viewform?embedded=true" width="100%" height="465" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">Loading...</iframe> -->
+            </div>
       </div>
-      <!-- </div> -->
-      <!-- /.container -->
+
+    </div>
+    <!-- </div> -->
+    <!-- /.container -->
   </section>
 
 
@@ -446,18 +484,19 @@ function submitGeoj() {
 
   <!-- Footer -->
   <footer>
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-10 col-lg-offset-1 text-center">
-                  </h4>
-                  <ul class="list-unstyled">
-                      <li><i class="fa fa-github fa-fw lead"></i> <a href="https://osgisomg.com/">OSGISOMG!</a></li>
-                      <li><i class="fa fa-envelope-o fa-fw"></i>  <a href="ericandrewsherman@gmail.com">ericandrewsherman@gmail.com</a>
-                      </li>
-                  </ul>
-              </div>
-          </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 col-lg-offset-1 text-center">
+          </h4>
+          <ul class="list-unstyled">
+            <li><i class="fa fa-github fa-fw lead"></i> <a href="https://osgisomg.com/">OSGISOMG!</a></li>
+            <li><i class="fa fa-envelope-o fa-fw"></i> <a href="ericandrewsherman@gmail.com">ericandrewsherman@gmail.com</a>
+            </li>
+          </ul>
+        </div>
       </div>
+    </div>
   </footer>
 </body>
+
 </html>
